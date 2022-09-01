@@ -1,31 +1,33 @@
+# Finance Planner
+
 ## 🎬 Project Overview
 An app to help with everything you need to know while making a huge fiancial decision like buying a new iPhone or a car or even planning your retirement.
 
 Simple & clean ui and evethitng is rendered client side!!!
-
+## 📸 Screenshots
 ![Finance Planner App](./docs/images/fianance-planner-screenshot.png)
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![Custom React Components](./docs/images/custom-react-components.png)
 
 ## 🥞 Tech Stack
-- Next.js - The React Framework
-- Chakra UI - React component library
-- Chart.js - JavaScript charting library
+- **Next.js** - The React Framework
+- **Chakra UI** - React component library
+- **Chart.js** - JavaScript charting library
 
 ![Tech Stack logo](./docs/images/tech-stack-logo.png)
 
 ## 🏁 Getting Started
 
-Fitst clone the repo
+First clone the repo
 ```git
 git clone https://github.com/joelm-code/next-finance-app
 ```
-Install all the dependencies
+Next, install all the dependencies
 ```node
 npm install
 ```
 
-First, run the development server:
+Finally, run the development server:
 
 ```bash
 npm run dev
@@ -80,7 +82,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ```
 
 
-<img style="padding:14px;display: block;margin-left: auto;margin-right: auto;" src="./docs/images/joel-coding-dark-mode-circle.png"/>
-<p style=" text-align:center;font-size:20px;background: -webkit-linear-gradient( 132.6deg,  rgba(71,139,214,1) 23.3%, rgba(37,216,211,1) 84.7% );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;">Made with ❤️ by Joel</p>
+<img src="./docs/images/joel-coding-dark-mode-circle.png"/>
+<p>Made with ❤️ & ☕️ by Joel</p>
+
