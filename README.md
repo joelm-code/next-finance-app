@@ -81,7 +81,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
     └── general.js
 ```
 
+## 👩‍⚖️ License
+
+Copyright © 2014-present Joel Mascarenhas. This source code is licensed under the MIT license found in the
+[LICENSE](https://github.com/joelm-code/rocket-maths/) file.
+
+---
 
 <img src="./docs/images/joel-coding-dark-mode-circle.png"/>
-<p>Made with ❤️ & ☕️ by Joel</p>
-
+<sup>Made with ♥ and ☕️ by Joel Mascarenhas.</sup>
