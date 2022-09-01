@@ -43,8 +43,7 @@ export default function MyGoal() {
   const [retirementAge, setRetirementAge] = useState(65);
   const [lifeExpectancy, setLifeExpectancy] = useState(80);
 
-  const [desiredAnnualIncomeOnRetirement, setDesiredAnnualIncomeOnRetirement] =
-    useState(100000);
+  const [desiredAnnualIncomeOnRetirement, setDesiredAnnualIncomeOnRetirement] = useState(100000);
   const [incomeFromOtherSources, setIncomeFromOtherSources] = useState(1000);
   const [currentSavings, setCurrentSavings] = useState(1000);
   const [rateOfReturnOnSavings, setRateOfReturnOnSavings] = useState(10);
@@ -115,22 +114,10 @@ export default function MyGoal() {
 
   return (
     <Layout>
-      <Flex
-        align={"center"}
-        justify={"center"}
-        minH={"xl"}
-        pt={10}
-        pb={10}
-        bg="gray.50"
-      >
+      <Flex align={"center"} justify={"center"} minH={"xl"} pt={10} pb={10} bg="gray.50">
         <VStack>
           {/* --> Heading <-- */}
-          <Stack
-            align={"center"}
-            p={6}
-            bgGradient="linear(to-l, #7F7FD5, #91EAE4)"
-            bgClip="text"
-          >
+          <Stack align={"center"} p={6} bgGradient="linear(to-l, #7F7FD5, #91EAE4)" bgClip="text">
             <Heading align={"center"} fontSize={"4xl"}>
               {`Planning your ${router.query.planId}`}
             </Heading>
@@ -151,13 +138,7 @@ export default function MyGoal() {
                     px={2}
                   > */}
 
-              <Stack
-                spacing={8}
-                w={["xs", "4xl", "4xl", "xs"]}
-                mx={"auto"}
-                maxW={["xs", "md", "2xl"]}
-                px={2}
-              >
+              <Stack spacing={8} w={["xs", "4xl", "4xl", "xs"]} mx={"auto"} maxW={["xs", "md", "2xl"]} px={2}>
                 <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
                   <Stack spacing={6}>
                     {/* Title */}
@@ -251,9 +232,7 @@ export default function MyGoal() {
                     </FormControl>
                     {/* Annual contribution from other sources */}
                     <FormControl>
-                      <FormLabel>
-                        Annual contribution from other sources
-                      </FormLabel>
+                      <FormLabel>Annual contribution from other sources</FormLabel>
                       <HStack>
                         <NumberInput
                           min={1}
@@ -355,79 +334,70 @@ export default function MyGoal() {
             <Collapse in={displayResult} animateOpacity>
               {displayResult && (
                 <WrapItem>
-                  <Stack
-                    w="4xl"
-                    spacing={6}
-                    mx={"auto"}
-                    maxW={["xs", "md", "2xl"]}
-                    px={2}
-                  >
+                  <Stack w="4xl" spacing={6} mx={"auto"} maxW={["xs", "md", "2xl"]} px={2}>
                     <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
                       <Stack>
                         <Text fontSize={"xl"} fontWeight={"semibold"}>
                           By investing{" "}
                         </Text>
-                        <Heading>
-                          {`₹${table.monthlySavingsGoal[0].toLocaleString(
-                            "en-IN"
-                          )} /month`}
-                        </Heading>
-                        <Text>{`You would have a net worth of ₹${table.amountOfSavingsInLifetime.toLocaleString(
-                          "en-IN"
-                        )} in ${retirementAge - currentAge} years `}</Text>
+                        <Heading>{`₹${table.monthlySavingsGoal[0].toLocaleString("en-IN")} /month`}</Heading>
+                        <Text>{`You would have a net worth of ₹${table.amountOfSavingsInLifetime.toLocaleString("en-IN")} in ${retirementAge - currentAge} years `}</Text>
                       </Stack>
                     </Box>
                     <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
                       <Stack spacing={6}>
                         <Heading size={"sm"}>{`Net Worth Chart`}</Heading>
                         <Divider />
-                        <LineChart
-                          title={"Net Worth"}
-                          labelArray={table.age}
-                          dataArray={table.cumulativeSavings}
-                        />
-                      </Stack>
-                    </Box>
-                    <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
-                      <Stack spacing={6}>
-                        <Heading size={"sm"}>{`Summary`}</Heading>
-                        <Divider />
+                        <LineChart title={"Net Worth"} labelArray={table.age} dataArray={table.cumulativeSavings} />
                         <TableContainer>
                           <Table variant="striped" colorScheme="teal">
-                            <TableCaption>
-                              Imperial to metric conversion factors
-                            </TableCaption>
                             <Thead>
                               <Tr>
-                                <Th>To convert</Th>
-                                <Th>into</Th>
-                                <Th isNumeric>multiply by</Th>
+                                <Th></Th>
+                                <Th>Current</Th>
+                                <Th isNumeric>At Retirement</Th>
                               </Tr>
                             </Thead>
                             <Tbody>
                               <Tr>
-                                <Td>inches</Td>
-                                <Td>millimetres (mm)</Td>
-                                <Td isNumeric>25.4</Td>
-                              </Tr>
-                              <Tr>
-                                <Td>feet</Td>
-                                <Td>centimetres (cm)</Td>
-                                <Td isNumeric>30.48</Td>
-                              </Tr>
-                              <Tr>
-                                <Td>yards</Td>
-                                <Td>metres (m)</Td>
-                                <Td isNumeric>0.91444</Td>
+                                <Td fontWeight={"bold"}>Net Worth</Td>
+                                <Td>₹{currentSavings.toLocaleString("en-IN")}</Td>
+                                <Td isNumeric>₹{table.amountOfSavingsInLifetime.toLocaleString("en-IN")}</Td>
                               </Tr>
                             </Tbody>
-                            <Tfoot>
+                          </Table>
+                        </TableContainer>
+                      </Stack>
+                    </Box>
+
+                    <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
+                      <Stack spacing={6}>
+                        <Heading size={"sm"}>{`Investment Goals`}</Heading>
+                        <Divider />
+                        <TableContainer>
+                          <Table variant="striped" colorScheme="teal">
+                            <TableCaption>Your projected net worth</TableCaption>
+                            <Thead>
                               <Tr>
-                                <Th>To convert</Th>
-                                <Th>into</Th>
-                                <Th isNumeric>multiply by</Th>
+                                <Th>Age</Th>
+                                <Th>Monthly Goal</Th>
+                                <Th>Net Worth</Th>
                               </Tr>
-                            </Tfoot>
+                            </Thead>
+                            <Tbody>
+                              {table.year.map((year) => {
+                                const index = year - 1;
+                                return (
+                                  <Tr>
+                                    <Td>{table.age[index]}</Td>
+                                    <Td>₹{table.monthlySavingsGoal[index].toLocaleString("en-IN")}</Td>
+                                    <Td fontWeight={"semibold"} color={table.age[index] < retirementAge ? "green.500" : "red.500"}>
+                                      ₹{table.cumulativeSavings[index].toLocaleString("en-IN")}
+                                    </Td>
+                                  </Tr>
+                                );
+                              })}
+                            </Tbody>
                           </Table>
                         </TableContainer>
                       </Stack>

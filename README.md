@@ -1,34 +1,86 @@
+## 🎬 Project Overview
+An app to help with everything you need to know while making a huge fiancial decision like buying a new iPhone or a car or even planning your retirement.
+
+Simple & clean ui and evethitng is rendered client side!!!
+
+![Finance Planner App](./docs/images/fianance-planner-screenshot.png)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## 🥞 Tech Stack
+- Next.js - The React Framework
+- Chakra UI - React component library
+- Chart.js - JavaScript charting library
+
+![Tech Stack logo](./docs/images/tech-stack-logo.png)
+
+## 🏁 Getting Started
+
+Fitst clone the repo
+```git
+git clone https://github.com/joelm-code/next-finance-app
+```
+Install all the dependencies
+```node
+npm install
+```
 
 First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the magic.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## 📁 Folder Structure
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+```tree
+.
+├── README.md
+├── components                  # All the custom components for the app
+│   ├── Chart                   
+│   │   └── LineChart.js        - Line Chart that uses Chartjs to map the data
+│   ├── Footer
+│   │   └── index.jsx           - Footer
+│   ├── Layout
+│   │   └── index.jsx           - Layout wraps all pages with header and footer
+│   ├── MenuCustom
+│   │   └── index.js            - Menu used for naviagation in the topbar
+│   ├── Navbar
+│   │   └── index.jsx           - Top bar of the app
+│   ├── TypewriterEffect
+│   │   └── index.jsx           - Typewritter effect for the hero
+│   └── logic
+│       └── index.js            - All the logic for calcualtions
+│
+│
+├── pages                        # All the pages for the app  
+│   ├── _app.js
+│   ├── api
+│   │   └── hello.js
+│   ├── home
+│   │   └── index.js            - Homepage
+│   ├── index.js
+│   ├── long-term-plan          -  Long Term Planning pages        
+│   │   └── [planId]            -  Dynanamic Routing to Retirement, Education, etc
+│   │       └── index.js        
+│   └── purchase-plan           
+│       └── [productId]         -  Short Term Planning pages        
+│           └── index.js        - Dynamic Routing to Mobile, Car, etc
+├── public
+│   ├── favicon.ico
+│   └── vercel.svg
+├── styles
+│   ├── Home.module.css
+│   └── globals.css
+└── variables
+    ├── charts.js
+    └── general.js
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<img style="padding:14px;display: block;margin-left: auto;margin-right: auto;" src="./docs/images/joel-coding-dark-mode-circle.png"/>
+<p style=" text-align:center;font-size:20px;background: -webkit-linear-gradient( 132.6deg,  rgba(71,139,214,1) 23.3%, rgba(37,216,211,1) 84.7% );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;">Made with ❤️ by Joel</p>
