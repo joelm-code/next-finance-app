@@ -1,0 +1,34 @@
+const calculateInflationAdjustedValue = (futureValue, years, inflationRate) => {
+  const p = years * 12;
+  const x = 1 + inflationRate / 12;
+  const y = futureValue * Math.pow(x, p);
+  return y;
+};
+
+const PV = (currentCost, annualRate, numberOfYears, inflationRate) => {
+  const i = annualRate / 100 / 12;
+  const ym = numberOfYears * 12;
+  const a = 1 + i;
+  const y1 = numberOfYears + 1;
+  const b = Math.pow(a, ym);
+  const c = b - 1;
+  const yearlypv = calculateInflationAdjustedValue(currentCost, numberOfYears, inflationRate) * [((i / c) * 1) / a];
+  return yearlypv;
+};
+
+export const calculateFutureValue = (inputData) => {
+  const currentCost = inputData.currentCost;
+  const annualRate = inputData.annualRate;
+  const numberOfYears = inputData.numberOfYears;
+  const inflationRate = inputData.inflationRate;
+
+  const monthlySip = Number(PV(currentCost, annualRate, numberOfYears, inflationRate).toFixed(2));
+  const inflationAdjustedPrice = Number(calculateInflationAdjustedValue(currentCost, numberOfYears, inflationRate).toFixed(2));
+
+  console.log("monthly Sip : ", monthlySip);
+
+  return {
+    investment: monthlySip,
+    inflationAdjustedPrice,
+  };
+};

@@ -49,22 +49,8 @@ export default function MyGoal() {
   const [rateOfReturnOnSavings, setRateOfReturnOnSavings] = useState(10);
   const [inflationRate, setInflationRate] = useState(5);
 
-  //States of the app
-  const [interestRate, setInterestRate] = useState(5);
-
-  const [currentYear, setCurrentYear] = useState(2022);
-
   const [table, setTable] = useState();
   const [displayResult, setDisplayResult] = useBoolean();
-
-  const router = useRouter();
-
-  //set the Current Year
-  useEffect(() => {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    setCurrentYear(yyyy);
-  }, []);
 
   //logic to calculate data
   const handleCalculate = () => {
@@ -85,6 +71,7 @@ export default function MyGoal() {
       firstYearSavings: 0,
       realSterlingContributionAtYearZero: 0,
     };
+
     console.log("data:", data);
     const table = logic(data);
     console.log("table:", table);
@@ -119,7 +106,7 @@ export default function MyGoal() {
           {/* --> Heading <-- */}
           <Stack align={"center"} p={6} bgGradient="linear(to-l, #7F7FD5, #91EAE4)" bgClip="text">
             <Heading align={"center"} fontSize={"4xl"}>
-              {`Planning your ${router.query.planId}`}
+              {`Plan your big life goals`}
             </Heading>
             <Text fontSize={"lg"} color={"gray.600"}>
               in less than 30 seconds
@@ -129,15 +116,6 @@ export default function MyGoal() {
           <Wrap justify={"center"} maxw={"100vw"} py={4} spacing={4}>
             {/* --> What <-- */}
             <WrapItem>
-              {/* 
-            <Stack
-                    w="4xl"
-                    spacing={6}
-                    mx={"auto"}
-                    maxW={["xs", "md", "2xl"]}
-                    px={2}
-                  > */}
-
               <Stack spacing={8} w={["xs", "4xl", "4xl", "xs"]} mx={"auto"} maxW={["xs", "md", "2xl"]} px={2}>
                 <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
                   <Stack spacing={6}>
@@ -340,15 +318,15 @@ export default function MyGoal() {
                         <Text fontSize={"xl"} fontWeight={"semibold"}>
                           By investing{" "}
                         </Text>
-                        <Heading>{`₹${table.monthlySavingsGoal[0].toLocaleString("en-IN")} /month`}</Heading>
-                        <Text>{`You would have a net worth of ₹${table.amountOfSavingsInLifetime.toLocaleString("en-IN")} in ${retirementAge - currentAge} years `}</Text>
+                        <Heading>{`₹${table[0].monthlySavingsGoal.toLocaleString("en-IN")} /month`}</Heading>
+                        <Text>{`You would have a net worth of ₹${table[0].amountOfSavingsInLifetime.toLocaleString("en-IN")} in ${retirementAge - currentAge} years `}</Text>
                       </Stack>
                     </Box>
                     <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
                       <Stack spacing={6}>
                         <Heading size={"sm"}>{`Net Worth Chart`}</Heading>
                         <Divider />
-                        <LineChart title={"Net Worth"} labelArray={table.age} dataArray={table.cumulativeSavings} />
+                        <LineChart title={"Net Worth"} labelArray={table.map((data) => data.age)} dataArray={table.map((data) => data.cumulativeSavings)} />
                         <TableContainer>
                           <Table variant="striped" colorScheme="teal">
                             <Thead>
@@ -362,7 +340,7 @@ export default function MyGoal() {
                               <Tr>
                                 <Td fontWeight={"bold"}>Net Worth</Td>
                                 <Td>₹{currentSavings.toLocaleString("en-IN")}</Td>
-                                <Td isNumeric>₹{table.amountOfSavingsInLifetime.toLocaleString("en-IN")}</Td>
+                                <Td isNumeric>₹{table[0].amountOfSavingsInLifetime.toLocaleString("en-IN")}</Td>
                               </Tr>
                             </Tbody>
                           </Table>
@@ -385,14 +363,14 @@ export default function MyGoal() {
                               </Tr>
                             </Thead>
                             <Tbody>
-                              {table.year.map((year) => {
-                                const index = year - 1;
+                              {/* This has to be changed */}
+                              {table.map((data) => {
                                 return (
                                   <Tr>
-                                    <Td>{table.age[index]}</Td>
-                                    <Td>₹{table.monthlySavingsGoal[index].toLocaleString("en-IN")}</Td>
-                                    <Td fontWeight={"semibold"} color={table.age[index] < retirementAge ? "green.500" : "red.500"}>
-                                      ₹{table.cumulativeSavings[index].toLocaleString("en-IN")}
+                                    <Td>{data.age}</Td>
+                                    <Td>₹{data.monthlySavingsGoal.toLocaleString("en-IN")}</Td>
+                                    <Td fontWeight={"semibold"} color={data.age < retirementAge ? "green.500" : "red.500"}>
+                                      ₹{data.cumulativeSavings.toLocaleString("en-IN")}
                                     </Td>
                                   </Tr>
                                 );

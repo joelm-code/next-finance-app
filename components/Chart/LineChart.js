@@ -1,33 +1,11 @@
 import { React, useEffect, useState } from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 
 import { Line } from "react-chartjs-2";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-export function LineChart({
-  labelArray,
-  dataArray,
-  title = "My Goal",
-  xAxisLabel = "Age",
-}) {
+export function LineChart({ labelArray, dataArray, title = "My Goal", xAxisLabel = "", table }) {
   const data = {
     labels: labelArray.map((age) => `${xAxisLabel} ${age}`),
     datasets: [

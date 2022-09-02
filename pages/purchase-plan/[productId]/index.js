@@ -21,6 +21,14 @@ import {
   Divider,
   Collapse,
   useBoolean,
+  TableContainer,
+  Table,
+  Thead,
+  Tr,
+  Th,
+  Tbody,
+  Td,
+  TableCaption,
 } from "@chakra-ui/react";
 
 import { logic } from "../../../components/logic/index";
@@ -30,15 +38,18 @@ import { useState, useEffect } from "react";
 import { LineChart } from "../../../components/Chart/LineChart";
 
 import { useRouter } from "next/router";
+import { calculateFutureValue } from "../../../components/logic/calculateFutureValue";
+import { calculateSip } from "../../../components/logic/calculateSip";
 
 export default function MyGoal() {
   //States of the app
   const [productName, setProductName] = useState("");
-  const [cost, setCost] = useState(0);
+  const [cost, setCost] = useState(50000);
   const [timeline, setTimeline] = useState(1);
   const [interestRate, setInterestRate] = useState(5);
   const [inflationRate, setInflationRate] = useState(5);
   const [currentYear, setCurrentYear] = useState(2022);
+  const [inflationAdjustedPrice, setInflationAdjustedPrice] = useState(0);
 
   const [table, setTable] = useState();
   const [displayResult, setDisplayResult] = useBoolean();
@@ -54,25 +65,29 @@ export default function MyGoal() {
 
   //logic to calculate data
   const handleCalculate = () => {
-    console.log("calculating");
-
-    const data = {
-      currentAge: 0,
-      retirementAge: timeline,
-      lifeExpectancy: timeline + 1,
-      desiredAnnualIncomeOnRetirement: cost,
-      incomeFromOtherSources: 0,
-      currentSavings: 0,
-      rateOfReturnOnSavings: interestRate / 100,
+    //define const Data
+    const inputData1 = {
+      currentCost: cost,
+      annualRate: interestRate,
+      numberOfYears: timeline,
       inflationRate: inflationRate / 100,
-      startingMonthlySavingsGoal: 0,
-      amountOfSavingsInLifetime: 0,
-      presentValueOfNeededFunds: 0,
-      firstYearSavings: 0,
-      realSterlingContributionAtYearZero: 0,
     };
 
-    const table = logic(data);
+    //send data to calculateFutureValue
+    const outputData1 = calculateFutureValue(inputData1);
+
+    setInflationAdjustedPrice(outputData1.inflationAdjustedPrice);
+
+    const inputData2 = {
+      minAge: 0,
+      maxAge: timeline,
+      investment: outputData1.investment,
+      annualRate: interestRate,
+      month: 0,
+    };
+
+    const table = calculateSip(inputData2);
+
     setTable(table);
   };
 
@@ -99,25 +114,11 @@ export default function MyGoal() {
 
   return (
     <Layout>
-      <Flex
-        align={"center"}
-        justify={"center"}
-        minH={"xl"}
-        pt={10}
-        pb={10}
-        bg="gray.50"
-      >
+      <Flex align={"center"} justify={"center"} minH={"xl"} pt={10} pb={10} bg="gray.50">
         <VStack>
           {/* --> Heading <-- */}
-          <Stack
-            align={"center"}
-            p={6}
-            bgGradient="linear(to-l, #7F7FD5, #91EAE4)"
-            bgClip="text"
-          >
-            <Heading fontSize={"4xl"}>
-              {`Buying your dream ${router.query.productId}`}
-            </Heading>
+          <Stack align={"center"} p={6} bgGradient="linear(to-l, #7F7FD5, #91EAE4)" bgClip="text">
+            <Heading fontSize={"4xl"}>{`Buying your dream ${router.query.productId}`}</Heading>
             <Text fontSize={"lg"} color={"gray.600"}>
               is easy when your plan it ahead of time
             </Text>
@@ -139,7 +140,7 @@ export default function MyGoal() {
                       <Input
                         type="text"
                         value={productName}
-                        placeholder={`Name your dream ${router.query.productId}`}
+                        placeholder={`Phone, Car, House, etc`}
                         onChange={(event) => {
                           setProductName(event.target.value);
                         }}
@@ -149,7 +150,7 @@ export default function MyGoal() {
 
                     {/* Cost */}
                     <FormControl>
-                      <FormLabel>{`It will cost me`}</FormLabel>
+                      <FormLabel>{`Today it costs`}</FormLabel>
                       <NumberInput
                         value={cost}
                         placeholder="Enter amount"
@@ -165,10 +166,8 @@ export default function MyGoal() {
                     {/* Time */}
                     <FormControl>
                       <HStack align={"baseline"} spacing={0}>
-                        <FormLabel>I will buy it in</FormLabel>
-                        <FormLabel color={"gray"}>
-                          {currentYear + Number(timeline)}
-                        </FormLabel>
+                        <FormLabel>I want to buy it in</FormLabel>
+                        <FormLabel color={"gray"}>{currentYear + Number(timeline)}</FormLabel>
                       </HStack>
                       <Stack>
                         <HStack>
@@ -251,38 +250,90 @@ export default function MyGoal() {
             <Collapse in={displayResult} animateOpacity>
               {displayResult && (
                 <WrapItem>
-                  <Stack
-                    w="4xl"
-                    spacing={6}
-                    mx={"auto"}
-                    maxW={["xs", "md", "2xl"]}
-                    px={2}
-                  >
+                  <Stack w="4xl" spacing={6} mx={"auto"} maxW={["xs", "md", "2xl"]} px={2}>
                     <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
                       <Stack>
                         <Text fontSize={"xl"} fontWeight={"semibold"}>
                           By investing{" "}
                         </Text>
-                        <Heading>
-                          {`₹${table.monthlySavingsGoal[0].toLocaleString(
-                            "en-IN"
-                          )} /month`}
-                        </Heading>
-                        <Text>{`You would have a saved ₹${table.amountOfSavingsInLifetime.toLocaleString(
-                          "en-IN"
-                        )}${
-                          productName && ` to buy your ${productName}`
-                        } in ${timeline} years `}</Text>
+                        <Heading>{`${table[0].investment.toLocaleString("en-IN")} / month`}</Heading>
+                        <Text>{`You would have a saved ₹${table[table.length - 1].finalValue.toLocaleString("en-IN")}${productName && ` to buy your ${productName}`} in ${timeline} ${
+                          timeline === 1 ? "year" : "years"
+                        } `}</Text>
+                      </Stack>
+                    </Box>
+
+                    <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
+                      <Stack spacing={6}>
+                        <Heading size={"sm"}>{`Cost Chart`}</Heading>
+                        <Divider />
+                        <LineChart title={"Total Investment"} labelArray={table.map((data) => ` Year ${data.months / 12}`)} dataArray={table.map((data) => data.finalValue)} table={table} />
+                        <TableContainer>
+                          <Table variant="striped" colorScheme="teal">
+                            <Thead>
+                              <Tr>
+                                <Th></Th>
+                                <Th>Today</Th>
+                                <Th isNumeric>{`In ${currentYear + timeline}`}</Th>
+                              </Tr>
+                            </Thead>
+                            <Tbody>
+                              <Tr>
+                                <Td fontWeight={"bold"}>Product Cost</Td>
+
+                                <Td>₹{cost.toLocaleString("en-IN")}</Td>
+                                <Td isNumeric>₹{inflationAdjustedPrice.toLocaleString("en-IN")}</Td>
+                              </Tr>
+                            </Tbody>
+                          </Table>
+                        </TableContainer>
                       </Stack>
                     </Box>
                     <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
-                      <Stack>
-                        <LineChart
-                          title={productName}
-                          labelArray={table.year}
-                          xAxisLabel={"Year"}
-                          dataArray={table.cumulativeSavings}
-                        />
+                      <Stack spacing={6}>
+                        <Heading size={"sm"}>{`Investment Goals`}</Heading>
+                        <Divider />
+                        <TableContainer>
+                          <Table variant="striped" colorScheme="teal">
+                            <TableCaption>Your projected net worth</TableCaption>
+                            <Thead>
+                              <Tr>
+                                <Th>Year</Th>
+                                <Th>Monthly Investment</Th>
+                                <Th>Annual Interest </Th>
+                                <Th>Net Worth</Th>
+                              </Tr>
+                            </Thead>
+                            <Tbody>
+                              {table.map((data) => {
+                                return (
+                                  <Tr>
+                                    {/* 
+return {
+    minAge,
+    maxAge,
+    years,
+    investment,
+    annualRate,
+    monthlyRate,
+    months,
+    totalInvest,
+    finalValue,
+    earnings,
+  };
+  
+  */}
+
+                                    <Td>{data.months / 12}</Td>
+                                    <Td>₹{data.investment.toLocaleString("en-IN")}</Td>
+                                    <Td>₹{data.earnings.toLocaleString("en-IN")}</Td>
+                                    <Td fontWeight={"semibold"}>₹{data.finalValue.toLocaleString("en-IN")}</Td>
+                                  </Tr>
+                                );
+                              })}
+                            </Tbody>
+                          </Table>
+                        </TableContainer>
                       </Stack>
                     </Box>
                   </Stack>
